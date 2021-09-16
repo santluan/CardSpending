@@ -1,4 +1,4 @@
-# Analise Gastos no CartÃ£o Nubank
+# Analise Gastos no CartÃƒÂ£o Nubank
 # Luan Santos
 # 11-09-2021
 
@@ -41,7 +41,7 @@ nufatura <- nufatura %>%
                                 str_detect(title, "Juros de rotativo") | str_detect(title, "IOF de rotativo")~ "juros",
                               TRUE ~ as.character(category)))
 
-## Gastos Totais por Mês ----
+## Gastos Totais por MÃªs ----
 
 nufatura %>%
   filter(is.na(category) == FALSE) %>%
@@ -53,7 +53,7 @@ nufatura %>%
   geom_text(aes(y = valor, label = valor), vjust = -0.3, size = 3.5) +
   geom_line(aes(y = media), linetype = "dashed", size = 1.5, color="#808080", group = 1) +
   labs(x = 'Categoria', y = 'Quantia', 
-       title = 'Gastos Totais do Cartão Nubank por Categoria') +
+       title = 'Gastos Totais do CartÃ£o Nubank por Categoria') +
   theme_minimal()
 
 ggsave("Gastos por Categoria_0921.png")
@@ -68,7 +68,7 @@ nufatura %>%
   treemap(index = 'category',
           vSize = 'valor',
           vColor = 'category',
-          title = 'Gastos Totais do Cartão Nubank por Categoria')
+          title = 'Gastos Totais do CartÃ£o Nubank por Categoria')
 
 dev.off()
 
@@ -80,7 +80,7 @@ nufatura %>%
   ggplot(aes(x = reorder(month.name, month), y = amount)) +
   geom_bar(stat = 'identity', fill = '#612F74') +
   geom_text(aes(label = amount), vjust = -0.3, size = 3.5) +
-  labs(x = 'Meses', y = 'Quantia', title = 'Gastos Totais do Cartão Nubank por Mês') +
+  labs(x = 'Meses', y = 'Quantia', title = 'Gastos Totais do CartÃ£o Nubank por MÃªs') +
   theme_bw()
 
 ggsave("Gastos por Mes_0921.png")
@@ -94,7 +94,7 @@ nufatura %>%
   ggplot(aes(x = reorder(month.name, month), y = amount)) +
     geom_bar(stat = 'identity', fill = '#612F74') +
     geom_text(aes(label = amount), vjust = -0.3, size = 3.5) +
-    labs(x = 'Meses', y = 'Quantia', title = 'Gastos Totais do Cartão Nubank por Mês') +
+    labs(x = 'Meses', y = 'Quantia', title = 'Gastos Totais do CartÃ£o Nubank por MÃªs') +
     facet_grid(vars(year)) + 
     theme_bw()
 
@@ -110,7 +110,7 @@ nufatura %>%
   ggplot(aes(x = reorder(month.name, month), y = amount)) +
   geom_bar(stat = 'identity', fill = '#612F74') +
   geom_text(aes(label = amount), vjust = -0.3, size = 3.5) +
-  labs(x = 'Meses', y = 'Quantia', title = 'Gastos Totais do Cartão Nubank por Mês') +
+  labs(x = 'Meses', y = 'Quantia', title = 'Gastos Totais do CartÃ£o Nubank por MÃªs') +
   theme_bw()
 
 ggsave("Gastos_2019.png")
@@ -123,7 +123,7 @@ nufatura %>%
   ggplot(aes(x = reorder(month.name, month), y = amount)) +
   geom_bar(stat = 'identity', fill = '#612F74') +
   geom_text(aes(label = amount), vjust = -0.3, size = 3.5) +
-  labs(x = 'Meses', y = 'Quantia', title = 'Gastos Totais do Cartão Nubank por Mês') +
+  labs(x = 'Meses', y = 'Quantia', title = 'Gastos Totais do CartÃ£o Nubank por MÃªs') +
   theme_bw()
 
 ggsave("Gastos_2020.png")
@@ -136,7 +136,10 @@ nufatura %>%
   ggplot(aes(x = reorder(month.name, month), y = amount)) +
   geom_bar(stat = 'identity', fill = '#612F74') +
   geom_text(aes(label = amount), vjust = -0.3, size = 3.5) +
-  labs(x = 'Meses', y = 'Quantia', title = 'Gastos Totais do Cartão Nubank por Mês') +
+  labs(x = 'Meses', y = 'Quantia', title = 'Gastos Totais do CartÃ£o Nubank por MÃªs') +
   theme_bw()
 
 ggsave("Gastos_2021.png")
+
+# Salvando num arquivo csv ----
+write.csv(nufatura, "NuFatura.csv")
