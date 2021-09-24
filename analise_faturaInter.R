@@ -30,27 +30,26 @@ str(faturainter)
 
 # Criando coluna para categoria de acordo com o Estabelecimento ----
 
+restaurante <- c("ifood", "Bar", "Uber Eats", "jamesdelivery", "marialuciado",
+                 "Rappi", "Amor A Cake", "Bob S", "Panificadora", "Maria E O Boi",
+                 "Burger", "Burguer", "Sorveteria", "Grill")
+transporte <- c("Waze", "Uber", "Riocardmais", " Pop ")
+outros <- c("Gift Card", "Amazon", "Lojas Americanas", "oboticario")
+saude <- c("Gympass", "Drog", "Raia")
+supermercado <- c("Grand Marche", "extra", "Supermercado", "Superprix")
+servicos <- c("Ame Dig", "donr")
+juro <- c("Juros", "Encargos", "Projecao")
+
 faturainter <- faturainter %>%
   mutate(categoria = case_when(
-    str_detect(estabelecimento, "ifood") | str_detect(estabelecimento, "Bar") | 
-      str_detect(estabelecimento, 'Uber Eats') | str_detect(estabelecimento, "jamesdelivery") |
-      str_detect(estabelecimento, "marialuciado") | str_detect(estabelecimento, "Rappi") |
-      str_detect(estabelecimento, "Amor A Cake") | str_detect(estabelecimento, "Bob S") |
-      str_detect(estabelecimento, "Panificadora") | str_detect(estabelecimento, "Maria E O Boi") |
-      str_detect(estabelecimento, "Burger") | str_detect(estabelecimento, "Burguer") |
-      str_detect(estabelecimento, "Sorveteria") | str_detect(estabelecimento, "Grill") ~ "restaurante",
-    str_detect(estabelecimento, "Waze") | str_detect(estabelecimento, "Uber") | 
-      str_detect(estabelecimento, "Riocardmais") | str_detect(estabelecimento, " Pop ") ~ "transporte",
-    str_detect(estabelecimento, "Gift Card") | str_detect(estabelecimento, "Amazon") |
-      str_detect(estabelecimento, "Lojas Americanas") | str_detect(estabelecimento, "oboticario") ~ "outros",
-    str_detect(estabelecimento, "Gympass") | str_detect(estabelecimento, "Drog") | 
-      str_detect(estabelecimento, "Raia") ~ "saude",
-    str_detect(estabelecimento, "Grand Marche") | str_detect(estabelecimento, "extra") | 
-      str_detect(estabelecimento, 'Supermercado') | str_detect(estabelecimento, "Superprix") ~ "supermercado",
-    str_detect(estabelecimento, "Ame Dig") | str_detect(estabelecimento, "donr") ~ "servicos",
+    str_detect(estabelecimento, paste(restaurante, collapse = "|")) ~ "restaurante",
+    str_detect(estabelecimento, paste(transporte, collapse = "|")) ~ "transporte",
+    str_detect(estabelecimento, paste(outros, collapse = "|")) ~ "outros",
+    str_detect(estabelecimento, paste(saude, collapse = "|")) ~ "saude",
+    str_detect(estabelecimento, paste(supermercado, collapse = "|")) ~ "supermercado",
+    str_detect(estabelecimento, paste(servicos, collapse = "|")) ~ "servicos",
     str_detect(estabelecimento, "Guilherme Fajardo Ec") ~ "eletronicos",
-    str_detect(estabelecimento, "Juros") | str_detect(estabelecimento, "Encargos") |
-      str_detect(estabelecimento, "Projecao") ~ "juros",
+    str_detect(estabelecimento, paste(juro, collapse = "|")) ~ "juros",
     str_detect(estabelecimento, "Multa") ~ "multa"
   ))
 
