@@ -11,8 +11,6 @@ library(ggpubr)
 
 setwd('D:\\Desktop\\DataScience\\R\\faturaNubank')
 
-#### modo Cava
-
 nufatura <- 
   purrr::map(fs::dir_ls(path = getwd(), glob = '*.csv'),
              readr::read_csv,
