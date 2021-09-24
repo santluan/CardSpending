@@ -35,10 +35,11 @@ freq.title <- nufatura %>%
 
 # Convertendo juros e multa
 
+juros <- c("IOF de atraso", "Juros de atraso", "Multa de atraso", "Juros e mora", 
+           "Juros de rotativo", "IOF de rotativo")
+
 nufatura <- nufatura %>%
-  mutate(category = case_when(str_detect(title, "IOF de atraso") | str_detect(title, "Juros de atraso") |
-                                str_detect(title, "Multa de atraso") | str_detect(title, "Juros e mora") |
-                                str_detect(title, "Juros de rotativo") | str_detect(title, "IOF de rotativo")~ "juros",
+  mutate(category = case_when(str_detect(title, paste(juros, collapse = "|")) ~ "juros", 
                               TRUE ~ as.character(category)))
 
 ## Gastos Totais por Mês ----
@@ -85,6 +86,16 @@ nufatura %>%
 
 ggsave("Gastos por Mes_0921.png")
 
+nufatura %>%
+  filter(is.na(category) == F) %>%
+  group_by(month.name, month, category) %>%
+  summarise(amount = sum(amount)) %>%
+  ggplot(aes(x = reorder(month.name, month), y = amount, fill = category)) +
+  geom_bar(stat = 'identity') +
+  labs(x = 'Meses', y = 'Quantia', 
+       title = 'Gastos Totais do Cartão Nubank por Mês e Categoria') +
+  theme_bw()
+
 ## Meses com maiores gastos divididos por ano ----
 
 nufatura %>%
@@ -101,7 +112,7 @@ nufatura %>%
 ggsave("Gastos por Mes e Ano_0921.png")
 
 ## Gastos por Mes e Ano ----
-
+## 2019
 nufatura %>%
   filter(is.na(category) == F,
          year == 2019) %>%
@@ -114,6 +125,21 @@ nufatura %>%
   theme_bw()
 
 ggsave("Gastos_2019.png")
+
+nufatura %>%
+  filter(is.na(category) == F,
+         year == 2019) %>%
+  group_by(month.name, month, category) %>%
+  summarise(amount = sum(amount)) %>%
+  ggplot(aes(x = reorder(month.name, month), y = amount, fill = category)) +
+  geom_bar(stat = 'identity') +
+  labs(x = 'Meses', y = 'Quantia', 
+       title = 'Gastos Totais do Cartão Nubank por Mês e Categoria - 2019') +
+  theme_bw()
+
+ggsave("Gastos por Categoria_2019.png")
+
+## 2020
 
 nufatura %>%
   filter(is.na(category) == F,
@@ -130,6 +156,21 @@ ggsave("Gastos_2020.png")
 
 nufatura %>%
   filter(is.na(category) == F,
+         year == 2020) %>%
+  group_by(month.name, month, category) %>%
+  summarise(amount = sum(amount)) %>%
+  ggplot(aes(x = reorder(month.name, month), y = amount, fill = category)) +
+  geom_bar(stat = 'identity') +
+  labs(x = 'Meses', y = 'Quantia', 
+       title = 'Gastos Totais do Cartão Nubank por Mês e Categoria - 2020') +
+  theme_bw()
+
+ggsave("Gastos por Categoria_2020.png")
+
+## 2021
+
+nufatura %>%
+  filter(is.na(category) == F,
          year == 2021) %>%
   group_by(month.name, month) %>%
   summarise(amount = sum(amount)) %>%
@@ -140,6 +181,19 @@ nufatura %>%
   theme_bw()
 
 ggsave("Gastos_2021.png")
+
+nufatura %>%
+  filter(is.na(category) == F,
+         year == 2021) %>%
+  group_by(month.name, month, category) %>%
+  summarise(amount = sum(amount)) %>%
+  ggplot(aes(x = reorder(month.name, month), y = amount, fill = category)) +
+  geom_bar(stat = 'identity') +
+  labs(x = 'Meses', y = 'Quantia', 
+       title = 'Gastos Totais do Cartão Nubank por Mês e Categoria - 2021') +
+  theme_bw()
+
+ggsave("Gastos por Categoria_2021.png")
 
 # Salvando num arquivo csv ----
 write.csv(nufatura, "NuFatura.csv")
